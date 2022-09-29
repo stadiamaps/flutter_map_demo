@@ -39,7 +39,6 @@ dependencies:
   flutter_map: ^3.0.0
   vector_map_tiles: ^3.0.2
   vector_tile_renderer: ^3.0.3
-  http: ^0.13.5
   latlong2: ^0.8.1
   url_launcher: ^6.1.6
 
