@@ -1,6 +1,8 @@
-import 'package:fleaflet_demo/raster_map.dart';
-import 'package:fleaflet_demo/vector_map.dart';
+import 'package:fleaflet_demo/raster_tile_layer.dart';
+import 'package:fleaflet_demo/vector_tile_layer.dart';
 import 'package:flutter/material.dart';
+
+import 'map_page.dart';
 
 const _stadiaMapsApiKey = "YOUR-API-KEY";
 
@@ -28,52 +30,24 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.grey,
       ),
-      home: DefaultTabController(length: 2, child: Scaffold(
-        appBar: AppBar(
-          bottom: const TabBar(tabs: [
-            Tab(icon: Icon(Icons.image)),
-            Tab(icon: Icon(Icons.architecture)),
-          ]),
-        ),
-        body: const TabBarView(children: [
-          RasterMap(apiKey: _stadiaMapsApiKey),
-          VectorMap(apiKey: _stadiaMapsApiKey)
-        ]),
-      )),
+      home: DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            appBar: AppBar(
+              bottom: const TabBar(tabs: [
+                Tab(icon: Icon(Icons.image)),
+                Tab(icon: Icon(Icons.architecture)),
+              ]),
+            ),
+            body: TabBarView(children: [
+              MapPage(
+                  basemapLayer: StadiaRasterTileLayer(
+                      styleName: "outdoors", apiKey: _stadiaMapsApiKey)),
+              const MapPage(
+                  basemapLayer: StadiaVectorTileLayer(
+                      styleName: "outdoors", apiKey: _stadiaMapsApiKey)),
+            ]),
+          )),
     );
   }
 }
-
-// class MyHomePage extends StatefulWidget {
-//   const MyHomePage({super.key, required this.title});
-//
-//   // This widget is the home page of your application. It is stateful, meaning
-//   // that it has a State object (defined below) that contains fields that affect
-//   // how it looks.
-//
-//   // This class is the configuration for the state. It holds the values (in this
-//   // case the title) provided by the parent (in this case the App widget) and
-//   // used by the build method of the State. Fields in a Widget subclass are
-//   // always marked "final".
-//
-//   final String title;
-//
-//   @override
-//   State<MyHomePage> createState() => _MyHomePageState();
-// }
-//
-// class _MyHomePageState extends State<MyHomePage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     // The Flutter framework has been optimized to make rerunning build methods
-//     // fast, so that you can just rebuild anything that needs updating rather
-//     // than having to individually change instances of widgets.
-//     return Scaffold(
-//         appBar: AppBar(
-//           // Here we take the value from the MyHomePage object that was created by
-//           // the App.build method, and use it to set our appbar title.
-//           title: Text(widget.title),
-//         ),
-//         body: const TabBarView(children: []);
-//   }
-// }

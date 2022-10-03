@@ -1,7 +1,8 @@
 # fleaflet_demo
 
 An example Flutter project demonstrating how to use the [flutter_map library](https://github.com/fleaflet/flutter_map)
-with Stadia Maps.
+with Stadia Maps. This loosely replicates the [clustering example](https://maplibre.org/maplibre-gl-js-docs/example/cluster/)
+for MapLibre GL JS.
 
 ## Getting Started
 
@@ -21,6 +22,8 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Gotchas
 
-The vector tile rendering is still experimental, and does not support advanced styling features present in many
-Stadia Maps styles. Additionally, rotation on macOS may be inverted. See
-[this PR for details](https://github.com/flutter/engine/pull/36444).
+For completeness, this repo includes both raster and vector examples (via a tab bar).
+However, note that the vector tile rendering is performed via a plugin which is still
+experimental, and does not support advanced styling features present in many Stadia Maps
+styles. Additionally, rotation on macOS may be inverted. See
+[this PR for details](https://github.com/flutter/engine/pull/36444); it will be fixed in an upcoming Flutter release.
