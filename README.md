@@ -6,12 +6,14 @@ for MapLibre GL JS.
 
 ## Getting Started
 
+You *will* need to set an API key in [main.dart](lib/main.dart) before running the app. You can sign up for a free
+Stadia Maps API key via our [Client Dashboard](https://client.stadiamaps.com/). Otherwise, run it like
+any other Flutter app.
+
 This project is a starting point for a Flutter application, but is by no means a comprehensive guide
 to all there is to know about Flutter Map. Please refer to the project (linked above)
 and the following resources for getting started with Flutter.
 
-NOTE: You *will* need to set an API key in [main.dart](lib/main.dart). You can sign up for a free
-Stadia Maps API key via our [Client Dashboard](https://client.stadiamaps.com/).
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
