@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
 
 Future<String> fetchBodyString(Client client, String url) async {
@@ -11,4 +12,9 @@ Future<String> fetchBodyString(Client client, String url) async {
 Future<dynamic> fetchJson(Client client, String url) async {
   final body = await fetchBodyString(client, url);
   return compute(jsonDecode, body);
+}
+
+Future<dynamic> fetchAssetJson(BuildContext context, String key) async {
+  final text = await DefaultAssetBundle.of(context).loadString(key);
+  return compute(jsonDecode, text);
 }

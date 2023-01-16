@@ -5,11 +5,10 @@ import 'package:vector_map_tiles/vector_map_tiles.dart';
 import 'package:vector_tile_renderer/vector_tile_renderer.dart';
 
 class StadiaVectorTileLayer extends StatefulWidget {
-  final String styleName;
   final String apiKey;
 
   const StadiaVectorTileLayer(
-      {super.key, required this.styleName, required this.apiKey});
+      {super.key, required this.apiKey});
 
   @override
   State<StatefulWidget> createState() => _StadiaVectorTileLayerState();
@@ -19,8 +18,7 @@ class _StadiaVectorTileLayerState extends State<StadiaVectorTileLayer> {
   final Client client = Client();
 
   Future<Widget> _fetchMapLayer() async {
-    var json = await fetchJson(
-        client, 'https://tiles.stadiamaps.com/styles/${widget.styleName}.json');
+    var json = await fetchAssetJson(context, "assets/style.json");
     var theme = ThemeReader(logger: null).read(json);
     var urlTemplate =
         "https://tiles.stadiamaps.com/data/openmaptiles/{z}/{x}/{y}.pbf?api_key=${widget.apiKey}";

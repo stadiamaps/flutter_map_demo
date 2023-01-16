@@ -44,8 +44,8 @@ class MyApp extends StatelessWidget {
                   basemapLayer: StadiaRasterTileLayer(
                       styleName: "outdoors", apiKey: _stadiaMapsApiKey)),
               const MapPage(
-                  basemapLayer: StadiaVectorTileLayer(
-                      styleName: "outdoors", apiKey: _stadiaMapsApiKey)),
+                  basemapLayer:
+                      StadiaVectorTileLayer(apiKey: _stadiaMapsApiKey)),
             ]),
           )),
     );
