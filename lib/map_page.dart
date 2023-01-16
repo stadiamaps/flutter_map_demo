@@ -107,6 +107,11 @@ class _MapPageState extends State<MapPage> {
         center: LatLng(59.438484, 24.742595),
         zoom: 8,
         keepAlive: true,
+        interactiveFlags: InteractiveFlag.drag |
+                  InteractiveFlag.flingAnimation |
+                  InteractiveFlag.pinchMove |
+                  InteractiveFlag.pinchZoom |
+                  InteractiveFlag.doubleTapZoom
       ),
       nonRotatedChildren: [
         AttributionWidget.defaultWidget(
