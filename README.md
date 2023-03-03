@@ -22,19 +22,16 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+We have included both local and remote vector tile rendering widgets as an
+example of how to ship a local style with your Flutter app. See
+[local_vector_tile_layer.dart](lib/local_vector_tile_layer.dart). You can switch out
+the vector layer in [main.dart](lib/main.dart) to see it in action.
+
 ## Gotchas
 
 For completeness, this repo includes both raster and vector examples (via a tab bar).
-However, note that the vector tile rendering is performed via a plugin which is still
-experimental, and does not support advanced styling features present in most Stadia Maps base
-styles.
-
-In particular, most labels from Stadia Maps base styles will not presently render, as complex
-expressions are not supported. If you want to use vector styles with flutter_map, we strongly
-recommend creating a custom style and testing to ensure that it renders as you expect.
-
-An example adaptation of our Alidade Smooth style has been included in the repository for convenience,
-but we would recommend further effort before using this in production, and the style here is provided as-is.
+Note that the vector tile rendering is performed via a plugin which is still
+in development, and may not support some advanced features and have rendering bugs.
 
 Additionally, rotation on macOS may be inverted. See
 [this PR for details](https://github.com/flutter/engine/pull/36444). This will be fixed in an upcoming Flutter release.

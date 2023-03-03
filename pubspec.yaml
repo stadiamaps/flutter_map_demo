@@ -40,7 +40,7 @@ dependencies:
   http: ^0.13.5
   flutter_map: ^3.0.0
   vector_map_tiles: ^3.1.4
-  vector_tile_renderer: ^3.0.4
+  vector_tile_renderer: ^3.1.1
   latlong2: ^0.8.1
   url_launcher: ^6.1.6
   geojson: ^1.0.0

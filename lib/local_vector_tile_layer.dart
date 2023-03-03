@@ -4,26 +4,33 @@ import 'package:http/http.dart';
 import 'package:vector_map_tiles/vector_map_tiles.dart';
 import 'package:vector_tile_renderer/vector_tile_renderer.dart';
 
-class StadiaVectorTileLayer extends StatefulWidget {
-  final String styleName;
+class StadiaLocalVectorTileLayer extends StatefulWidget {
   final String apiKey;
 
-  const StadiaVectorTileLayer(
-      {super.key, required this.styleName, required this.apiKey});
+  const StadiaLocalVectorTileLayer(
+      {super.key, required this.apiKey});
 
   @override
-  State<StatefulWidget> createState() => _StadiaVectorTileLayerState();
+  State<StatefulWidget> createState() => _StadiaLocalVectorTileLayerState();
 }
 
-class _StadiaVectorTileLayerState extends State<StadiaVectorTileLayer> {
+class _StadiaLocalVectorTileLayerState extends State<StadiaLocalVectorTileLayer> {
   final Client client = Client();
 
   Future<Widget> _fetchMapLayer() async {
-    var style = await fetchMapStyle(widget.styleName, widget.apiKey);
+    var json = await fetchAssetJson(context, "assets/style.json");
+    var theme = ThemeReader(logger: null).read(json);
+    var urlTemplate =
+        "https://tiles.stadiamaps.com/data/openmaptiles/{z}/{x}/{y}.pbf?api_key=${widget.apiKey}";
 
     return VectorTileLayer(
-      theme: style.theme,
-      tileProviders: style.providers,
+      theme: theme,
+      tileProviders: TileProviders({
+        'openmaptiles': MemoryCacheVectorTileProvider(
+            delegate: NetworkVectorTileProvider(
+                urlTemplate: urlTemplate, maximumZoom: 14),
+            maxSizeBytes: 1024 * 1024 * 2)
+      }),
     );
   }
 
