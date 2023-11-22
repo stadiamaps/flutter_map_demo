@@ -103,8 +103,8 @@ class _MapPageState extends State<MapPage> {
         popupController: _popupController,
         child: FlutterMap(
           options: MapOptions(
-              center: const LatLng(59.438484, 24.742595),
-              zoom: 8,
+              center: const LatLng(37.77, -122.43),
+              zoom: 7,
               keepAlive: true,
               interactiveFlags: InteractiveFlag.drag |
                   InteractiveFlag.flingAnimation |
