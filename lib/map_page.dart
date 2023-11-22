@@ -104,27 +104,27 @@ class _MapPageState extends State<MapPage> {
 
     return FlutterMap(
       options: MapOptions(
-        center: LatLng(59.438484, 24.742595),
-        zoom: 8,
-        keepAlive: true,
-        interactiveFlags: InteractiveFlag.drag |
-                  InteractiveFlag.flingAnimation |
-                  InteractiveFlag.pinchMove |
-                  InteractiveFlag.pinchZoom |
-                  InteractiveFlag.doubleTapZoom
-      ),
+          center: LatLng(59.438484, 24.742595),
+          zoom: 8,
+          keepAlive: true,
+          interactiveFlags: InteractiveFlag.drag |
+              InteractiveFlag.flingAnimation |
+              InteractiveFlag.pinchMove |
+              InteractiveFlag.pinchZoom |
+              InteractiveFlag.doubleTapZoom),
       nonRotatedChildren: [
-        AttributionWidget.defaultWidget(
-          source: 'Stadia Maps © OpenMapTiles © OpenStreetMap contributors',
-          onSourceTapped: () async {
-            if (!await launchUrl(
-                Uri.parse("https://stadiamaps.com/attribution"))) {
-              if (kDebugMode) {
-                print('Could not launch url');
-              }
-            }
-          },
-        )
+        RichAttributionWidget(attributions: [
+          TextSourceAttribution("Stadia Maps",
+              onTap: () => launchUrl(Uri.parse("https://stadiamaps.com/")),
+              prependCopyright: true),
+          TextSourceAttribution("OpenMapTiles",
+              onTap: () => launchUrl(Uri.parse("https://openmaptiles.org/")),
+              prependCopyright: true),
+          TextSourceAttribution("OSM Contributors",
+              onTap: () =>
+                  launchUrl(Uri.parse("https://www.openstreetmap.org/about/")),
+              prependCopyright: true),
+        ])
       ],
       children: [
         widget.basemapLayer,

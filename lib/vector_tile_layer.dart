@@ -2,7 +2,6 @@ import 'package:fleaflet_demo/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:vector_map_tiles/vector_map_tiles.dart';
-import 'package:vector_tile_renderer/vector_tile_renderer.dart';
 
 class StadiaVectorTileLayer extends StatefulWidget {
   final String styleName;

@@ -12,7 +12,7 @@ Future<String> fetchBodyString(Client client, String url) async {
 
 Future<Style> fetchMapStyle(String name, String apiKey) => StyleReader(
         uri:
-            'https://tiles.stadiamaps.com/styles/${name}.json?api_key={key}',
+            'https://tiles.stadiamaps.com/styles/$name.json?api_key={key}',
         apiKey: apiKey)
     .read();
 
