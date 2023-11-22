@@ -473,10 +473,10 @@ packages:
     dependency: "direct main"
     description:
       name: vector_map_tiles
-      sha256: fbc94dc080d7431d8c2c782cb8937a3bc48079c624f996322e36ade6935761e1
+      sha256: a57095b7b0c81e1c8a58cc148566cd2631b90bbe3a92cd066796552e3f6a12b6
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.0"
+    version: "6.0.2"
   vector_math:
     dependency: transitive
     description:
@@ -497,10 +497,10 @@ packages:
     dependency: "direct main"
     description:
       name: vector_tile_renderer
-      sha256: de212da0f5e48107d3b763a940a428eb1f49d8a4664d41ac0b654f77209a2d0b
+      sha256: "33bf5c237c8186e27f9e430a5d06da7e61546fea61b162fd45b29ca4b079af5f"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.0"
+    version: "5.0.1"
   web:
     dependency: transitive
     description:
