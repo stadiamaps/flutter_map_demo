@@ -25,7 +25,7 @@ class _MapPageState extends State<MapPage> {
   Future<Widget> _fetchMarkers(Client client) async {
     final List<Marker> markers = [];
     final json = await fetchBodyString(client,
-        'https://maplibre.org/maplibre-gl-js-docs/assets/earthquakes.geojson');
+        'https://maplibre.org/maplibre-gl-js/docs/assets/earthquakes.geojson');
     final geo = GeoJson();
     final popupState = PopupState();
 
