@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
-import 'package:geojson/geojson.dart';
+import 'package:geojson_vi/geojson_vi.dart';
 import 'package:http/http.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,6 +19,7 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   final Client client = Client();
+  final PopupController _popupController = PopupController();
 
   // Loads and parses a GeoJSON file from the internet asynchronously,
   // then builds up a set of markers with the parsed points.
@@ -26,23 +27,22 @@ class _MapPageState extends State<MapPage> {
     final List<Marker> markers = [];
     final json = await fetchBodyString(client,
         'https://maplibre.org/maplibre-gl-js/docs/assets/earthquakes.geojson');
-    final geo = GeoJson();
-    final popupState = PopupState();
+    final collection = GeoJSONFeatureCollection.fromJSON(json);
 
-    geo.processedPoints.listen((event) {
-      markers.add(Marker(
-          point: event.geoPoint.point,
-          builder: (context) => const CircleAvatar(
-                backgroundColor: Colors.black,
-                child: Icon(
-                  Icons.sensors,
-                  color: Colors.yellow,
-                ),
-              )));
-    });
-    geo.endSignal.listen((_) => geo.dispose());
-
-    await geo.parse(json);
+    for (final feature in collection.features) {
+      final geom = feature?.geometry;
+      if (geom is GeoJSONPoint) {
+        markers.add(Marker(
+            point: LatLng(geom.coordinates[1], geom.coordinates[0]),
+            builder: (context) => const CircleAvatar(
+                  backgroundColor: Colors.black,
+                  child: Icon(
+                    Icons.sensors,
+                    color: Colors.yellow,
+                  ),
+                )));
+      }
+    }
 
     if (kDebugMode) {
       print("Loaded ${markers.length} markers from GeoJSON");
@@ -52,12 +52,10 @@ class _MapPageState extends State<MapPage> {
     return MarkerClusterLayerWidget(
         options: MarkerClusterLayerOptions(
       // size: const Size(40, 40),
-      anchor: AnchorPos.align(AnchorAlign.center),
+      anchorPos: AnchorPos.align(AnchorAlign.center),
       markers: markers,
       popupOptions: PopupOptions(
-          // NOTE: We would love to display a more useful popup here, but
-          // the Dart GeoJSON package drops the freeform properties during
-          // parsing.
+          popupController: _popupController,
           popupBuilder: (context, marker) => Card(
                 child: SizedBox(
                   width: 256,
@@ -68,8 +66,7 @@ class _MapPageState extends State<MapPage> {
                         "${marker.point.latitude}, ${marker.point.longitude}"),
                   ),
                 ),
-              ),
-          popupState: popupState),
+              )),
       builder: (context, markers) {
         return Container(
           decoration: BoxDecoration(
@@ -102,34 +99,38 @@ class _MapPageState extends State<MapPage> {
       },
     );
 
-    return FlutterMap(
-      options: MapOptions(
-          center: LatLng(59.438484, 24.742595),
-          zoom: 8,
-          keepAlive: true,
-          interactiveFlags: InteractiveFlag.drag |
-              InteractiveFlag.flingAnimation |
-              InteractiveFlag.pinchMove |
-              InteractiveFlag.pinchZoom |
-              InteractiveFlag.doubleTapZoom),
-      nonRotatedChildren: [
-        RichAttributionWidget(attributions: [
-          TextSourceAttribution("Stadia Maps",
-              onTap: () => launchUrl(Uri.parse("https://stadiamaps.com/")),
-              prependCopyright: true),
-          TextSourceAttribution("OpenMapTiles",
-              onTap: () => launchUrl(Uri.parse("https://openmaptiles.org/")),
-              prependCopyright: true),
-          TextSourceAttribution("OSM Contributors",
-              onTap: () =>
-                  launchUrl(Uri.parse("https://www.openstreetmap.org/about/")),
-              prependCopyright: true),
-        ])
-      ],
-      children: [
-        widget.basemapLayer,
-        markerLayerBuilder,
-      ],
-    );
+    return PopupScope(
+        popupController: _popupController,
+        child: FlutterMap(
+          options: MapOptions(
+              center: const LatLng(59.438484, 24.742595),
+              zoom: 8,
+              keepAlive: true,
+              interactiveFlags: InteractiveFlag.drag |
+                  InteractiveFlag.flingAnimation |
+                  InteractiveFlag.pinchMove |
+                  InteractiveFlag.pinchZoom |
+                  InteractiveFlag.doubleTapZoom,
+              onTap: (_, __) => _popupController.hideAllPopups()),
+          nonRotatedChildren: [
+            RichAttributionWidget(attributions: [
+              TextSourceAttribution("Stadia Maps",
+                  onTap: () => launchUrl(Uri.parse("https://stadiamaps.com/")),
+                  prependCopyright: true),
+              TextSourceAttribution("OpenMapTiles",
+                  onTap: () =>
+                      launchUrl(Uri.parse("https://openmaptiles.org/")),
+                  prependCopyright: true),
+              TextSourceAttribution("OSM Contributors",
+                  onTap: () => launchUrl(
+                      Uri.parse("https://www.openstreetmap.org/about/")),
+                  prependCopyright: true),
+            ])
+          ],
+          children: [
+            widget.basemapLayer,
+            markerLayerBuilder,
+          ],
+        ));
   }
 }
