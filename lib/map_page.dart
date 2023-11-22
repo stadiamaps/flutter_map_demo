@@ -31,13 +31,15 @@ class _MapPageState extends State<MapPage> {
 
     for (final feature in collection.features) {
       final geom = feature?.geometry;
+      final props = feature?.properties;
+      final isTsunami = props?["tsunami"] == 1;
       if (geom is GeoJSONPoint) {
         markers.add(Marker(
             point: LatLng(geom.coordinates[1], geom.coordinates[0]),
-            builder: (context) => const CircleAvatar(
+            builder: (context) => CircleAvatar(
                   backgroundColor: Colors.black,
                   child: Icon(
-                    Icons.sensors,
+                    isTsunami ? Icons.waves : Icons.sensors,
                     color: Colors.yellow,
                   ),
                 )));
